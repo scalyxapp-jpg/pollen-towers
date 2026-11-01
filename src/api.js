@@ -54,6 +54,7 @@ export async function talkToAgent({
 						`You work on floor ${company.floor} of Pollen Towers.`,
 						`Today's open tasks: ${company.tasks.join(" · ")}`,
 						"Stay in character, keep replies under 180 words, and end with a decision or a question for the owner.",
+				"When a job needs material you were not given, do the part you can and mark the gaps in [square brackets] — do not refuse the whole job and do not invent facts.",
 					].join("\n"),
 				},
 				...history.slice(-8).map(({ role, content }) => ({ role, content })),
