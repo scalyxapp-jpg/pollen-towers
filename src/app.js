@@ -61,8 +61,8 @@ const state = {
 	lastLease: null,
 };
 
-ui.connect?.addEventListener("change", async () => {
-	state.key = ui.connect.apiKey || devKey || null;
+async function applyKey(key) {
+	state.key = key || devKey || null;
 	if (!state.key) {
 		ui.connectState.textContent =
 			"Not connected. Your own Pollen pays for the agents.";
@@ -75,7 +75,19 @@ ui.connect?.addEventListener("change", async () => {
 	} catch {
 		/* the balance line is optional */
 	}
+}
+
+ui.connect?.addEventListener("change", () => {
+	void applyKey(ui.connect.apiKey);
 });
+
+// The element restores a stored key while it mounts, which can happen before
+// this module is listening. Read the property directly as well.
+for (const delay of [0, 400, 1500]) {
+	setTimeout(() => {
+		if (ui.connect?.apiKey) void applyKey(ui.connect.apiKey);
+	}, delay);
+}
 
 function floors() {
 	return allFloors(state.local);
