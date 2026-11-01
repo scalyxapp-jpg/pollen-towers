@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pollen Towers — a building of companies run by agents</title>
+    <meta
+      name="description"
+      content="Twelve floors, each one a business run by a person and their AI agent. Ride the lift, step into an office, read the work, or rent the next free floor."
+    />
+    <meta property="og:title" content="Pollen Towers" />
+    <meta
+      property="og:description"
+      content="Every floor is one company, run by one person and their agent. Step in, talk to the agent, rent the next office."
+    />
+    <meta name="theme-color" content="#0d1016" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">Pollen Towers · 12 floors</p>
+        <h1>One person, one agent, one floor.</h1>
+        <p class="lede">
+          Every office holds a company that runs on an agent doing the daily
+          work. Ride the lift, read what the floor is working on, or take an
+          empty office and let the agent invent the business with you.
+        </p>
+      </div>
+      <div class="connect-block">
+        <polli-connect
+          app-key="pk_OFG6htTiEvF6LBlx"
+          budget="5"
+          expiry="7"
+          hide-buy-pollen
+        ></polli-connect>
+        <p class="hint" id="connect-state">
+          Connect so the agents answer on your own Pollen.
+        </p>
+      </div>
+    </header>
+
+    <main class="building">
+      <section class="tower-column" aria-label="The building">
+        <div class="tower-stage">
+          <div class="lift" aria-hidden="true">
+            <div class="lift-car" id="lift-car"></div>
+          </div>
+          <div class="tower" id="tower">
+            <div class="tower-body" id="tower-body"></div>
+            <div class="tower-roof" aria-hidden="true">
+              <span>POLLEN TOWERS</span>
+            </div>
+            <div class="tower-ground" aria-hidden="true"></div>
+          </div>
+        </div>
+        <p class="drag-hint">Drag the tower to turn it · click a floor to ride up</p>
+      </section>
+
+      <section class="panel" aria-live="polite">
+        <nav class="tabs" role="tablist">
+          <button role="tab" class="tab active" data-view="office" aria-selected="true">
+            Office
+          </button>
+          <button role="tab" class="tab" data-view="directory" aria-selected="false">
+            Directory
+          </button>
+          <button role="tab" class="tab" data-view="rent" aria-selected="false">
+            Rent a floor
+          </button>
+        </nav>
+
+        <div class="view" id="view-office">
+          <div id="office-empty" class="placeholder">
+            <p>No floor selected.</p>
+            <p class="muted">
+              Pick a lit window on the left, or open the directory.
+            </p>
+          </div>
+          <article id="office" hidden>
+            <header class="office-head">
+              <p class="floor-label" id="office-floor">Floor 12</p>
+              <h2 id="office-name">Kettle &amp; Co.</h2>
+              <p class="tagline" id="office-tagline"></p>
+              <div class="agent-line">
+                <span class="agent-chip" id="office-agent">Mira</span>
+                <span class="muted" id="office-role"></span>
+              </div>
+            </header>
+
+            <div class="tasks" id="office-tasks" aria-label="Open work"></div>
+
+            <div class="thread" id="thread" role="log" aria-live="polite"></div>
+
+            <form class="ask" id="ask-form">
+              <label class="sr-only" for="ask-input">Message the agent</label>
+              <input
+                id="ask-input"
+                type="text"
+                placeholder="Ask the agent for the daily work…"
+                autocomplete="off"
+              />
+              <button type="submit" class="primary" id="ask-button">Send</button>
+            </form>
+            <p class="status" id="office-status" role="status"></p>
+            <button class="ghost small" id="copy-agent" type="button">
+              Copy agent definition
+            </button>
+          </article>
+        </div>
+
+        <div class="view" id="view-directory" hidden>
+          <div class="directory-head">
+            <h2>Directory</h2>
+            <input
+              id="directory-filter"
+              type="search"
+              placeholder="Filter by name, industry, floor"
+              aria-label="Filter companies"
+            />
+          </div>
+          <ul class="directory" id="directory"></ul>
+        </div>
+
+        <div class="view" id="view-rent" hidden>
+          <h2>Rent the next floor</h2>
+          <p class="muted">
+            Describe the business in a sentence. The agent drafts the rest: the
+            name, the charter, its own role and the three jobs it will bring you
+            each morning. You stay the one who decides.
+          </p>
+          <form id="rent-form">
+            <label for="idea">Your idea</label>
+            <textarea
+              id="idea"
+              rows="3"
+              maxlength="400"
+              placeholder="a tiny press that publishes annotated classics"
+              required
+            ></textarea>
+            <p class="muted" id="next-floor"></p>
+            <button type="submit" class="primary" id="rent-button">
+              Sign the lease
+            </button>
+          </form>
+          <p class="status" id="rent-status" role="status"></p>
+          <div class="lease" id="lease" hidden>
+            <h3>Lease signed</h3>
+            <p id="lease-summary"></p>
+            <button class="ghost small" type="button" id="lease-open">
+              Ride up to it
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Agents by <a href="https://pollinations.ai">Pollinations</a>. Floors you
+        rent live in this browser; the six seed tenants ship with the app.
+      </p>
+      <a
+        class="badge"
+        href="https://pollinations.ai/?ref=badge"
+        target="_blank"
+        rel="noopener"
+      >
+        <img
+          src="https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg"
+          alt="Made with pollinations.ai"
+        />
+      </a>
+    </footer>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@pollinations/ui@0.1.0-alpha.20/dist/connect.js"></script>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
